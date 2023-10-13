@@ -1,0 +1,25 @@
+.Requests .heading-container {
+  background-color: #1f67a2;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  color: white;
+  border-bottom: 1px solid black;
+}
+
+.Requests .heading-container button {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: black;
+  font-family: Times;
+  font-size: 13.333px;
+}
+
+.Requests .hospitals-container h2 {
+  padding: 20px 10px;
+  background-color: #1f67a2;
+  color: #f0c513;
+}

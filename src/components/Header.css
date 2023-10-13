@@ -1,0 +1,18 @@
+.Header {
+  background-color: black;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.Header h1 {
+  display: flex;
+  align-items: center;
+}
+
+.Header img {
+  height: 100px;
+}

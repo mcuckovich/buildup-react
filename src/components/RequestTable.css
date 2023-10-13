@@ -1,0 +1,74 @@
+.RequestTable {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.RequestTable button,
+.RequestTable .button {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: black;
+  text-align: center;
+  width: 80px;
+  box-sizing: border-box;
+  font-family: Times;
+  font-size: 13.333px;
+}
+
+.RequestTable .active {
+  background-color: #ec832f;
+}
+
+.RequestTable thead {
+  background-color: #1f67a2;
+  position: sticky;
+  width: 100%;
+  top: 100px;
+  left: 0;
+  right: 0;
+}
+.RequestTable td {
+  padding: 10px;
+}
+
+.RequestTable thead td {
+  color: white;
+}
+
+.RequestTable .container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.RequestTable tbody .container {
+  margin-right: 65px;
+}
+
+.RequestTable tbody td {
+  border-bottom: 1px solid black;
+}
+
+.RequestTable tbody img {
+  width: 100px;
+}
+
+.RequestTable tbody button {
+  background-color: #fde5e2;
+}
+
+.RequestTable tbody .button {
+  margin-top: 10px;
+  background-color: rgba(164, 205, 58, 0.15);
+}
+
+.RequestTable .quantity {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .RequestTable .name {
+    width: 100%;
+  }
+}

@@ -1,0 +1,40 @@
+.request-info {
+  background-color: rgb(216, 215, 215);
+}
+
+.request-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.request {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 5px 5px 5px 0;
+  background-color: white;
+}
+
+.request * {
+  margin: 5px;
+}
+
+.request-list .request button {
+  width: initial;
+}
+
+.info-button {
+  cursor: not-allowed;
+}
+
+.request-info .clear-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.request-info .clear-button-container button {
+  background-color: #e84c3b;
+}
