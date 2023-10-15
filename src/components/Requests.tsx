@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import "./Requests.css";
+import gif from "../assets/images/loading.gif";
 import Part from "../models/Part";
 import {
   getParts,
   removeAllRequests,
   removeRequest,
-} from "../services/buildupService";
+} from "../services/partService";
 import RequestedPart from "../models/RequestedPart";
 import RequestTable from "./RequestTable";
 import HospitalRequest from "../models/HospitalRequest";
+import "./Requests.css";
 
 const Requests = () => {
   const [original, setOriginal] = useState<Part[]>([]);
@@ -94,39 +95,43 @@ const Requests = () => {
   return (
     <div className="Requests">
       <section className="heading-container">
-        <h2>Part Requests</h2>
-        {hospitalView ? (
-          <button onClick={() => setHospitalView(false)}>List by part</button>
-        ) : (
-          <button onClick={() => setHospitalView(true)}>
-            List by hospital
-          </button>
-        )}
+        {hospitalView ? <h2>Hospital View</h2> : <h2>Part View</h2>}
+        <button onClick={() => setHospitalView((prev) => !prev)}>
+          Change View
+        </button>
       </section>
-      {hospitalView ? (
-        <div>
-          <ul className="hospitals-container">
-            {requestsByHospital.map((hospital, index) => (
-              <li key={hospital.hospital + index}>
-                <h2>{hospital.hospital}</h2>
-                <RequestTable
-                  original={requestsByHospital[index].parts}
-                  removeRequestHandler={removeRequestHandler}
-                  removeAllRequestsHandler={removeAllRequestsHandler}
-                  hospitalView={hospitalView}
-                  hospital={hospital.hospital}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+      {original.length ? (
+        <>
+          {hospitalView ? (
+            <div>
+              <ul className="hospitals-container">
+                {requestsByHospital.map((hospital, index) => (
+                  <li key={hospital.hospital + index}>
+                    <h3>{hospital.hospital}</h3>
+                    <RequestTable
+                      original={requestsByHospital[index].parts}
+                      removeRequestHandler={removeRequestHandler}
+                      removeAllRequestsHandler={removeAllRequestsHandler}
+                      hospitalView={hospitalView}
+                      hospital={hospital.hospital}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <RequestTable
+              original={original}
+              removeRequestHandler={removeRequestHandler}
+              removeAllRequestsHandler={removeAllRequestsHandler}
+              hospitalView={hospitalView}
+            />
+          )}
+        </>
       ) : (
-        <RequestTable
-          original={original}
-          removeRequestHandler={removeRequestHandler}
-          removeAllRequestsHandler={removeAllRequestsHandler}
-          hospitalView={hospitalView}
-        />
+        <div className="loading-gif-container">
+          <img src={gif} alt="lego loading" />
+        </div>
       )}
     </div>
   );

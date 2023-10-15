@@ -13,8 +13,6 @@
   text-align: center;
   width: 80px;
   box-sizing: border-box;
-  font-family: Times;
-  font-size: 13.333px;
 }
 
 .RequestTable .active {
@@ -25,7 +23,7 @@
   background-color: #1f67a2;
   position: sticky;
   width: 100%;
-  top: 100px;
+  top: 120px;
   left: 0;
   right: 0;
 }

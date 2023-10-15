@@ -1,0 +1,65 @@
+.Dashboard > section {
+  position: sticky;
+  top: 120px;
+  z-index: 1;
+}
+
+.Dashboard ul {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.Dashboard li {
+  border: 1px solid black;
+  height: 150px;
+  width: 150px;
+  position: relative;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bolder;
+  background-position: center;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.Dashboard li:hover {
+  box-shadow: none;
+  transition: 0.3s ease-out;
+}
+
+.Dashboard h3 {
+  text-align: center;
+  color: #1f67a2;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.Dashboard #builds {
+  background-size: cover;
+}
+
+.Dashboard #requests {
+  background-size: contain;
+}
+
+@media only screen and (min-width: 675px) {
+  .Dashboard li {
+    height: 200px;
+    width: 200px;
+  }
+}
+
+@media only screen and (min-width: 675px) {
+  .Dashboard li {
+    height: 300px;
+    width: 300px;
+    font-size: 52px;
+  }
+}

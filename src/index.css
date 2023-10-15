@@ -1,6 +1,7 @@
 body,
 h1,
 h2,
+h3,
 p,
 ul {
   margin: 0;
@@ -13,6 +14,32 @@ a {
 
 .visibility {
   display: none;
+}
+
+.heading-container {
+  background-color: #1f67a2;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  color: white;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+}
+
+.loading-gif-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button,
+.button {
+  font-family: Times;
+  font-size: 13.333px;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 768px) {

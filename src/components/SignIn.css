@@ -1,0 +1,53 @@
+.SignIn {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.SignIn form {
+  width: 100%;
+  background-color: black;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.SignIn h1 {
+  text-align: center;
+}
+
+.SignIn form img {
+  width: 200px;
+}
+
+.SignIn form input,
+.SignIn form button {
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+.SignIn form button {
+  margin-top: 10px;
+  background-color: #a4cd3a;
+  color: black;
+}
+
+.SignIn .fail {
+  color: red;
+  margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+  .SignIn form {
+    width: 50%;
+  }
+}

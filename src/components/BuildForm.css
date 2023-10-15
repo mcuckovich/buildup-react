@@ -1,0 +1,45 @@
+.BuildForm {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BuildForm form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.BuildForm form label {
+  color: #143e61;
+}
+
+.BuildForm form input,
+.BuildForm form select {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.BuildForm span {
+  text-align: center;
+}
+
+.BuildForm form button {
+  padding: 5px;
+  color: black;
+  border: 1px solid black;
+}
+
+.BuildForm #submit {
+  margin-top: 10px;
+  background-color: #a4cd3a;
+}

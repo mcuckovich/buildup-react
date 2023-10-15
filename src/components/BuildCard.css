@@ -1,0 +1,42 @@
+.BuildCard {
+  width: calc(50vw - 15px);
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-position: center;
+  background-size: contain;
+  box-sizing: border-box;
+  margin: 10px 10px 0 0;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  position: relative;
+}
+
+.BuildCard #img-container {
+  height: 150px;
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.BuildCard #text-container {
+  margin-top: 10px;
+}
+
+.BuildCard #view {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: white;
+  text-align: center;
+  width: 80px;
+  box-sizing: border-box;
+  background-color: #1f67a2;
+  margin-top: 10px;
+}

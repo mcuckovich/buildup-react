@@ -1,0 +1,80 @@
+.Builds {
+  min-height: calc(100vh - 120px);
+  background-color: aliceblue;
+}
+
+.Builds > section {
+  position: sticky;
+  top: 120px;
+  z-index: 1;
+}
+
+.Builds #fail {
+  color: red;
+}
+
+.Builds .heading-container button {
+  background-color: #a4cd3a;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 80px;
+  color: black;
+}
+
+.Builds #links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 50px;
+  position: sticky;
+  top: 120px;
+  background-color: white;
+  z-index: 1;
+  border-bottom: 1px solid black;
+}
+
+.Builds #links button,
+.Builds #links a {
+  display: block;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 80px;
+}
+
+#back {
+  background-color: #ec832f;
+  color: black;
+}
+
+#save {
+  background-color: #a4cd3a;
+  color: black;
+}
+
+#edit {
+  background-color: #1f67a2;
+  color: white;
+}
+
+.Builds .heading-container div {
+  display: flex;
+  align-items: center;
+}
+
+.Builds #card-container {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0 0 10px 10px;
+}
+
+.Builds .gallery {
+  padding: 10px 0 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
