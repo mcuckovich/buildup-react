@@ -6,9 +6,10 @@ import ImageCard from "./ImageCard";
 interface Props {
   image: string;
   index: number;
+  deleteImage: () => void;
 }
 
-const SortableItem = ({ image, index }: Props) => {
+const SortableItem = ({ image, index, deleteImage }: Props) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: image });
   const style = {
@@ -17,7 +18,7 @@ const SortableItem = ({ image, index }: Props) => {
   };
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <ImageCard image={image} index={index} />
+      <ImageCard image={image} index={index} deleteImage={deleteImage} />
     </div>
   );
 };

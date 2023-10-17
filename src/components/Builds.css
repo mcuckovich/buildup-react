@@ -1,6 +1,5 @@
 .Builds {
   min-height: calc(100vh - 120px);
-  background-color: aliceblue;
 }
 
 .Builds > section {
@@ -15,11 +14,6 @@
 
 .Builds .heading-container button {
   background-color: #a4cd3a;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 80px;
-  color: black;
 }
 
 .Builds #links {
@@ -35,14 +29,8 @@
   border-bottom: 1px solid black;
 }
 
-.Builds #links button,
-.Builds #links a {
-  display: block;
-  text-align: center;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 80px;
+#links .btn-container {
+  display: flex;
 }
 
 #back {
@@ -50,14 +38,25 @@
   color: black;
 }
 
-#save {
-  background-color: #a4cd3a;
-  color: black;
-}
-
 #edit {
   background-color: #1f67a2;
   color: white;
+}
+
+#more {
+  background-color: #a4cd3a;
+  margin-right: 5px;
+}
+
+#cancel {
+  background-color: #e84c3b;
+  color: white;
+}
+
+#save {
+  background-color: #1f67a2;
+  color: white;
+  margin-left: 5px;
 }
 
 .Builds .heading-container div {

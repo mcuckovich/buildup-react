@@ -29,14 +29,39 @@
 }
 
 .BuildCard #view {
-  display: block;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
   color: white;
-  text-align: center;
-  width: 80px;
-  box-sizing: border-box;
   background-color: #1f67a2;
   margin-top: 10px;
+}
+
+.BuildCard .build-card-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.BuildCard form {
+  margin-top: 10px;
+}
+
+.BuildCard form > div {
+  display: flex;
+}
+
+.BuildCard #kit-color-container {
+  margin-top: 5px;
+}
+
+.BuildCard form input,
+.BuildCard form select {
+  flex: 1;
+}
+
+.BuildCard #delete-build {
+  background-color: #e84c3b;
+}
+
+.BuildCard #save-build {
+  background-color: #a4cd3a;
 }

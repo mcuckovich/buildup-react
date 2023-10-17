@@ -1,12 +1,9 @@
-.Requests .heading-container button {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  color: black;
-}
-
 .Requests .hospitals-container h3 {
   padding: 10px;
   background-color: #1f67a2;
   color: #f0c513;
+}
+
+.Requests .heading-container button {
+  width: initial;
 }

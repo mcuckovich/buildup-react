@@ -8,6 +8,10 @@ ul {
   padding: 0;
 }
 
+body {
+  background-color: aliceblue;
+}
+
 a {
   text-decoration: none;
 }
@@ -40,6 +44,22 @@ button,
   font-family: Times;
   font-size: 13.333px;
   cursor: pointer;
+  box-sizing: border-box;
+  width: 80px;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+  color: black;
+  border: 1px solid black;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.no-data {
+  margin: 10px;
 }
 
 @media only screen and (min-width: 768px) {

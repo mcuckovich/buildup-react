@@ -5,25 +5,39 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import "./BuildForm.css";
 
 const kitColors: string[] = [
-  "blue",
-  "red",
-  "yellow",
-  "green",
-  "orange",
-  "purple",
+  "Blue",
+  "Red",
+  "Yellow",
+  "Green",
+  "Orange",
+  "Purple",
 ];
 
 interface Props {
   setLoading: (boolean: boolean) => void;
   setShowForm: (boolean: boolean) => void;
   addBuildHandler: (build: Build) => void;
+  currentBuild: Build | undefined;
 }
 
-const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
+const BuildForm = ({
+  setLoading,
+  setShowForm,
+  addBuildHandler,
+  currentBuild,
+}: Props) => {
   const [title, setTitle] = useState("");
   const [kitColor, setKitColor] = useState("");
   const [directoryName, setDirectoryName] = useState("");
   const [directory, setDirectory] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files;
+    if (fileList) {
+      setSelectedFile(fileList[0]);
+    }
+  };
 
   const isValidImageFile = (fileType: string) => {
     return (
@@ -35,6 +49,7 @@ const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
   };
 
   const traverseAndProcessImages = async (directoryHandle: any) => {
+    setLoading(true);
     let images: string[] = [];
     const promises = [];
     for await (const entry of directoryHandle.values()) {
@@ -44,7 +59,7 @@ const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
         if (isValidImageFile(fileType)) {
           const storageRef = ref(
             storage,
-            `kits/${kitColor}/${title.toLowerCase()}/${fileHandle.name}`
+            `kits/${kitColor.toLowerCase()}/${title.toLowerCase()}/${fileHandle.name.toLowerCase()}`
           );
           const uploadPromise = uploadBytes(storageRef, fileHandle);
           promises.push(
@@ -62,7 +77,15 @@ const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
       }
     }
     await Promise.all(promises);
-    await addBuildHandler({ title: title.toLowerCase(), kitColor, images });
+    if (currentBuild) {
+      await addBuildHandler({
+        title: currentBuild.title,
+        kitColor: currentBuild.kitColor,
+        images,
+      });
+    } else {
+      await addBuildHandler({ title, kitColor, images });
+    }
   };
 
   const handleDirectoryPicker = async () => {
@@ -72,6 +95,8 @@ const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
       setDirectory(directoryHandle);
     } catch (error) {
       console.error("Error selecting directory:", error);
+      setDirectoryName("");
+      setDirectory(null);
     }
   };
 
@@ -79,50 +104,94 @@ const BuildForm = ({ setLoading, setShowForm, addBuildHandler }: Props) => {
     e.preventDefault();
     setShowForm(false);
     setLoading(true);
-    await traverseAndProcessImages(directory);
-    setTitle("");
-    setKitColor("");
-    setDirectoryName("");
-    setDirectory(null);
-    setLoading(false);
+    if (directoryName) {
+      await traverseAndProcessImages(directory);
+      setDirectoryName("");
+      setDirectory(null);
+      setLoading(false);
+    } else if (selectedFile) {
+      const storageRef = ref(
+        storage,
+        `kits/${currentBuild?.title.toLowerCase()}/${currentBuild?.title.toLowerCase()}/${selectedFile.name.toLowerCase()}`
+      );
+      const snapshot = await uploadBytes(storageRef, selectedFile);
+      const url = await getDownloadURL(snapshot.ref);
+      await addBuildHandler({
+        title: currentBuild?.title!,
+        kitColor: currentBuild?.kitColor!,
+        images: [url],
+      });
+      setTitle("");
+      setKitColor("");
+      setSelectedFile(null);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="BuildForm" onClick={() => setShowForm(false)}>
       <div onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <label htmlFor="kitColor">Kit Color</label>
-          <select
-            name="kitColor"
-            id="kitColor"
-            required
-            value={kitColor}
-            onChange={(e) => setKitColor(e.target.value)}
-          >
-            <option value=""></option>
-            {kitColors.map((color) => (
-              <option value={color} key={color}>
-                {color.toUpperCase()}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleDirectoryPicker} type="button">
-            Pic Folder
-          </button>
-          <span>{directoryName}</span>
-          <button id="submit" disabled={!title || !kitColor || !directoryName}>
-            Submit
-          </button>
-        </form>
+        {currentBuild ? (
+          <form onSubmit={handleSubmit}>
+            {!directoryName && (
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".jped,.svg+xml,.png,.gif"
+                id="single-pic"
+              />
+            )}
+            {!directoryName && !selectedFile && (
+              <p style={{ textAlign: "center" }}>or</p>
+            )}
+            {!selectedFile && (
+              <button onClick={handleDirectoryPicker} type="button">
+                Multiple Pics
+              </button>
+            )}
+            <span>{directoryName}</span>
+            <button id="submit" disabled={!directoryName && !selectedFile}>
+              Submit
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <label htmlFor="kitColor">Kit Color</label>
+            <select
+              name="kitColor"
+              id="kitColor"
+              required
+              value={kitColor}
+              onChange={(e) => setKitColor(e.target.value)}
+            >
+              <option value=""></option>
+              {kitColors.map((color) => (
+                <option value={color} key={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleDirectoryPicker} type="button">
+              Pic Folder
+            </button>
+            <span>{directoryName}</span>
+            <button
+              id="submit"
+              disabled={!title || !kitColor || !directoryName}
+            >
+              Submit
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 .ImageCard {
-  width: calc(25vw - 12.5px);
-  height: 100px;
+  width: calc(50vw - 15px);
+  height: 150px;
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
-  background-position: center;
+  background-position: bottom;
   background-size: contain;
   background-repeat: no-repeat;
   box-sizing: border-box;
@@ -17,18 +17,44 @@
 
 .ImageCard p {
   position: absolute;
-  top: 2px;
-  left: 3px;
+  top: 0;
+  left: 0;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 10px;
+  padding: 5px;
+  background-color: white;
 }
 
-@media only screen and (min-width: 768px) {
+.ImageCard button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 1px solid black;
+  padding: 5px;
+  border: none;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 9px;
+  font-size: 16px;
+  color: black;
+  background-color: #fde5e2;
+}
+
+.ImageCard button:hover {
+  color: red;
+}
+
+@media only screen and (min-width: 480px) {
   .ImageCard {
-    width: calc(16.666vw - 11.666px);
+    width: calc(25vw - 12.5px);
   }
 }
 
 @media only screen and (min-width: 1024px) {
   .ImageCard {
-    width: calc(10vw - 11px);
+    width: calc(16.666vw - 11.666px);
   }
 }

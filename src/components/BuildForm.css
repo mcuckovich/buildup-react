@@ -5,13 +5,14 @@
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1;
+  z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .BuildForm form {
+  width: 300px;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -34,9 +35,12 @@
 }
 
 .BuildForm form button {
-  padding: 5px;
-  color: black;
-  border: 1px solid black;
+  width: initial;
+}
+
+.BuildForm #single-pic {
+  margin: 0;
+  padding: 0;
 }
 
 .BuildForm #submit {

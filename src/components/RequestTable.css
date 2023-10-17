@@ -3,18 +3,6 @@
   width: 100%;
 }
 
-.RequestTable button,
-.RequestTable .button {
-  display: block;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  color: black;
-  text-align: center;
-  width: 80px;
-  box-sizing: border-box;
-}
-
 .RequestTable .active {
   background-color: #ec832f;
 }
@@ -38,6 +26,10 @@
 .RequestTable .container {
   display: flex;
   justify-content: flex-end;
+}
+
+.RequestTable tbody {
+  background-color: white;
 }
 
 .RequestTable tbody .container {

@@ -33,12 +33,14 @@
   border-radius: 20px;
   font-size: 18px;
   font-weight: bolder;
+  text-align: center;
 }
 
 .SignIn form button {
   margin-top: 10px;
   background-color: #a4cd3a;
   color: black;
+  width: initial;
 }
 
 .SignIn .fail {

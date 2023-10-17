@@ -80,7 +80,11 @@ const Requests = () => {
         })
       );
 
-      setRequestsByHospital(resultArray);
+      setRequestsByHospital(
+        resultArray.sort((a, b) => {
+          return a.hospital < b.hospital ? -1 : a.hospital > b.hospital ? 1 : 0;
+        })
+      );
     } else {
       setRequestsByHospital([]);
     }
@@ -104,20 +108,24 @@ const Requests = () => {
         <>
           {hospitalView ? (
             <div>
-              <ul className="hospitals-container">
-                {requestsByHospital.map((hospital, index) => (
-                  <li key={hospital.hospital + index}>
-                    <h3>{hospital.hospital}</h3>
-                    <RequestTable
-                      original={requestsByHospital[index].parts}
-                      removeRequestHandler={removeRequestHandler}
-                      removeAllRequestsHandler={removeAllRequestsHandler}
-                      hospitalView={hospitalView}
-                      hospital={hospital.hospital}
-                    />
-                  </li>
-                ))}
-              </ul>
+              {requestsByHospital.length ? (
+                <ul className="hospitals-container">
+                  {requestsByHospital.map((hospital, index) => (
+                    <li key={hospital.hospital + index}>
+                      <h3>{hospital.hospital}</h3>
+                      <RequestTable
+                        original={requestsByHospital[index].parts}
+                        removeRequestHandler={removeRequestHandler}
+                        removeAllRequestsHandler={removeAllRequestsHandler}
+                        hospitalView={hospitalView}
+                        hospital={hospital.hospital}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="no-data">No requests</p>
+              )}
             </div>
           ) : (
             <RequestTable
