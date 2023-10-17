@@ -66,6 +66,7 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
               </select>
             </div>
             <div className="build-card-button-container">
+              <button id="save-build">Save</button>
               <button
                 id="delete-build"
                 type="button"
@@ -73,7 +74,6 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
               >
                 Delete
               </button>
-              <button id="save-build">Save</button>
             </div>
           </form>
         ) : (
@@ -82,6 +82,9 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
             <p>Color: {build.kitColor}</p>
             <p>Images: {build.images.length}</p>
             <div className="build-card-button-container">
+              <button onClick={() => setEditBuild(true)} id="edit-build">
+                Edit
+              </button>
               <Link
                 to={`/builds/${encodeURIComponent(build._id!)}`}
                 id="view"
@@ -89,7 +92,6 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
               >
                 View Build
               </Link>
-              <button onClick={() => setEditBuild(true)}>Edit</button>
             </div>
           </div>
         )}

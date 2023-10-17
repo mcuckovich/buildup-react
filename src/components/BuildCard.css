@@ -28,10 +28,13 @@
   margin-top: 10px;
 }
 
-.BuildCard #view {
-  color: white;
+.BuildCard #edit-build {
   background-color: #1f67a2;
-  margin-top: 10px;
+  color: white;
+}
+
+.BuildCard #view {
+  background-color: #ec832f;
 }
 
 .BuildCard .build-card-button-container {
@@ -63,5 +66,5 @@
 }
 
 .BuildCard #save-build {
-  background-color: #a4cd3a;
+  background-color: #f0c513;
 }
