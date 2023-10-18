@@ -35,6 +35,7 @@ const Builds = () => {
   const [showForm, setShowForm] = useState(false);
   const [builds, setBuilds] = useState<Build[]>([]);
   const [edit, setEdit] = useState(false);
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
 
   const currentBuild: Build | undefined = builds.find(
     (item) => item._id === id
@@ -104,7 +105,6 @@ const Builds = () => {
 
   const updateHandler = async (id: string, build: Build): Promise<void> => {
     setEdit(false);
-    // setLoading(true);
     await updateBuild(id, build);
     loadBuilds();
   };
@@ -141,7 +141,16 @@ const Builds = () => {
           currentBuild={currentBuild}
         />
       )}
-
+      {modalIndex !== null && (
+        <div id="image-modal" onClick={() => setModalIndex(null)}>
+          <div
+            id="image-modal-content"
+            style={{
+              backgroundImage: `url(${currentBuild?.images[modalIndex]})`,
+            }}
+          ></div>
+        </div>
+      )}
       {loading ? (
         <div className="loading-gif-container">
           <img src={gif} alt="lego loading" />
@@ -198,12 +207,13 @@ const Builds = () => {
                       {...sortableKeyboardCoordinates}
                     >
                       {currentBuild.images.map((image, index) => (
-                        <SortableItem
-                          key={image}
-                          image={image}
-                          index={index}
-                          deleteImage={() => deleteImage(index)}
-                        />
+                        <div key={image} onClick={() => setModalIndex(index)}>
+                          <SortableItem
+                            image={image}
+                            index={index}
+                            deleteImage={() => deleteImage(index)}
+                          />
+                        </div>
                       ))}
                     </SortableContext>
                   </DndContext>
