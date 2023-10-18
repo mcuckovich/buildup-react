@@ -25,7 +25,7 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await updateHandler(build._id!, { title, kitColor, images: build.images });
+    updateHandler(build._id!, { title, kitColor, images: build.images });
     setEditBuild(false);
   };
 

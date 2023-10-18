@@ -1,5 +1,5 @@
 import BuildForm from "./BuildForm";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Build from "../models/Build";
 import {
   addBuild,
@@ -30,33 +30,50 @@ import gif from "../assets/images/loading.gif";
 import "./Builds.css";
 
 const Builds = () => {
-  const id = useParams().id;
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [builds, setBuilds] = useState<Build[]>([]);
   const [edit, setEdit] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
 
-  const currentBuild: Build | undefined = builds.find(
-    (item) => item._id === id
-  );
-  const currentBuildIndex: number = builds.findIndex((item) => item._id === id);
-
-  const loadBuilds = useCallback(async () => {
-    setBuilds(await getBuilds());
-    setLoading(false);
+  useEffect(() => {
+    const loadBuilds = async () => {
+      const fetchedBuilds = await getBuilds();
+      setBuilds(fetchedBuilds);
+      setLoading(false);
+    };
+    loadBuilds();
   }, []);
 
-  const addBuildHandler = async (build: Build): Promise<void> => {
-    await addBuild(build);
-    loadBuilds();
-  };
+  const { currentBuild, currentBuildIndex } = useMemo(() => {
+    const foundBuild = builds.find((item) => item._id === id);
+    const currentIndex = builds.findIndex((item) => item._id === id);
+    return { currentBuild: foundBuild, currentBuildIndex: currentIndex };
+  }, [builds, id]);
 
-  useEffect(() => {
-    (async () => {
-      loadBuilds();
-    })();
-  }, [loadBuilds]);
+  const addBuildHandler = async (build: Build): Promise<void> => {
+    try {
+      const existingBuild = builds.find(
+        (b) => b.title === build.title && b.kitColor === build.kitColor
+      );
+      if (existingBuild) {
+        const updatedBuilds = builds.map((b) =>
+          b.title === build.title && b.kitColor === build.kitColor
+            ? { ...b, images: [...b.images, ...build.images] }
+            : b
+        );
+        await addBuild(build);
+        setBuilds(updatedBuilds);
+      } else {
+        const newBuild: Build = await addBuild(build);
+        setBuilds((prevBuilds) => [...prevBuilds, newBuild]);
+      }
+    } catch (error) {
+      // Handle any potential errors
+      console.error("Error adding build:", error);
+    }
+  };
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -104,21 +121,42 @@ const Builds = () => {
   };
 
   const updateHandler = async (id: string, build: Build): Promise<void> => {
-    setEdit(false);
-    await updateBuild(id, build);
-    loadBuilds();
+    try {
+      setLoading(true);
+      const updatedBuild: Build = await updateBuild(id, build);
+      setBuilds((prevBuilds) =>
+        prevBuilds.map((prevBuild) =>
+          prevBuild._id === id ? updatedBuild : prevBuild
+        )
+      );
+      setLoading(false);
+      setEdit(false);
+    } catch (error) {
+      // Handle any potential errors
+      console.error("Error updating build:", error);
+    }
   };
 
   const deleteBuildHandler = async (id: string): Promise<void> => {
-    setLoading(true);
-    await deleteBuild(id);
-    loadBuilds();
-    setLoading(false);
+    try {
+      setLoading(true);
+      await deleteBuild(id);
+      setBuilds((prevBuilds) =>
+        prevBuilds.filter((prevBuild) => prevBuild._id !== id)
+      );
+      setLoading(false);
+    } catch (error) {
+      // Handle any potential errors
+      console.error("Error deleting build:", error);
+      setLoading(false);
+    }
   };
 
-  const cancel = () => {
+  const cancel = async () => {
     setEdit(false);
-    loadBuilds();
+    setLoading(true);
+    setBuilds(await getBuilds());
+    setLoading(false);
   };
 
   return (
