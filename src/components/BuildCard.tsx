@@ -33,7 +33,7 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
     <li className="BuildCard">
       <div>
         <div
-          id="img-container"
+          className="img-container"
           style={{
             backgroundImage: `url(${build.images[0]})`,
           }}
@@ -77,7 +77,7 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
             </div>
           </form>
         ) : (
-          <div id="text-container">
+          <div className="text-container">
             <p>Title: {build.title}</p>
             <p>Color: {build.kitColor}</p>
             <p>Images: {build.images.length}</p>

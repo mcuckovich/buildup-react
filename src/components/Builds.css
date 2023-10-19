@@ -48,9 +48,28 @@
   margin-right: 5px;
 }
 
+#add-build {
+  background-color: #a4cd3a;
+}
+
+#order {
+  background-color: #ec832f;
+  margin-right: 5px;
+}
+
+#save-order {
+  background-color: #f0c513;
+  margin-left: 5px;
+}
+
 #cancel {
   background-color: #e84c3b;
-  color: white;
+  color: black;
+}
+
+#cancel-order {
+  background-color: #e84c3b;
+  color: color;
 }
 
 #save {
@@ -63,7 +82,7 @@
   align-items: center;
 }
 
-.Builds #card-container {
+.Builds .card-container {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -99,6 +118,20 @@
   border: 1px solid black;
   background-color: white;
   border-radius: 20px;
+  position: relative;
+}
+
+.Builds #image-modal-content button {
+  position: absolute;
+  bottom: -35px;
+}
+
+#left {
+  right: calc(50% + 5px);
+}
+
+#right {
+  left: calc(50% + 5px);
 }
 
 @media only screen and (min-width: 768px) {

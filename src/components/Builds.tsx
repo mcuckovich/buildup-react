@@ -6,6 +6,7 @@ import {
   deleteBuild,
   getBuilds,
   updateBuild,
+  updateOrderOfBuilds,
 } from "../services/buildService";
 import BuildCard from "./BuildCard";
 import { Link, useParams } from "react-router-dom";
@@ -28,6 +29,7 @@ import {
 import SortableItem from "./SortableItem";
 import gif from "../assets/images/loading.gif";
 import "./Builds.css";
+import SortableBuildCard from "./SortableBuildCard";
 
 const Builds = () => {
   const { id } = useParams();
@@ -36,6 +38,7 @@ const Builds = () => {
   const [builds, setBuilds] = useState<Build[]>([]);
   const [edit, setEdit] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const [orderBuilds, setOrderBuilds] = useState(false);
 
   useEffect(() => {
     const loadBuilds = async () => {
@@ -88,6 +91,16 @@ const Builds = () => {
   });
   const sensors = useSensors(pointerSensor, mouseSensor, keyboardSensor);
 
+  const handleBuildDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      const oldIndex = builds.findIndex((build) => build._id === active.id);
+      const newIndex = builds.findIndex((build) => build._id === over.id);
+      const updatedBuilds = arrayMove(builds, oldIndex, newIndex);
+      setBuilds(updatedBuilds);
+    }
+  };
+
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
@@ -101,10 +114,8 @@ const Builds = () => {
         const buildCopy = { ...currentBuild! };
         const oldIndex = currentBuild!.images.indexOf(active.id);
         const newIndex = currentBuild!.images.indexOf(over.id);
-
         buildCopy.images = arrayMove(currentBuild!.images, oldIndex, newIndex);
         prevCopy[currentBuildIndex] = buildCopy;
-
         return prevCopy;
       });
     }
@@ -152,11 +163,39 @@ const Builds = () => {
     }
   };
 
+  const updateOrderOfBuildsHandler = async (builds: Build[]): Promise<void> => {
+    setLoading(true);
+    await updateOrderOfBuilds(builds);
+    setBuilds(await getBuilds());
+    setOrderBuilds(false);
+    setLoading(false);
+  };
+
   const cancel = async () => {
     setEdit(false);
     setLoading(true);
+    setOrderBuilds(false);
     setBuilds(await getBuilds());
     setLoading(false);
+  };
+
+  const increaseIndex = (e: any) => {
+    e.stopPropagation();
+    if (modalIndex! < currentBuild!.images.length - 1) {
+      setModalIndex((prev) => prev! + 1);
+    } else {
+      setModalIndex(0);
+    }
+  };
+
+  const decreaseIndex = (e: any) => {
+    console.dir(e);
+    e.stopPropagation();
+    if (modalIndex! === 0) {
+      setModalIndex(currentBuild!.images!.length - 1);
+    } else {
+      setModalIndex((prev) => prev! - 1);
+    }
   };
 
   return (
@@ -166,9 +205,34 @@ const Builds = () => {
           <h2>{currentBuild ? currentBuild.title : "Builds"}</h2>
         </div>
         {!id && (
-          <button onClick={() => setShowForm(true)} className="button">
-            Add Build
-          </button>
+          <>
+            {orderBuilds ? (
+              <div>
+                <button onClick={cancel} id="cancel-order">
+                  Cancel
+                </button>
+                <button
+                  id="save-order"
+                  onClick={() => updateOrderOfBuildsHandler(builds)}
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <div>
+                <button onClick={() => setOrderBuilds(true)} id="order">
+                  Order
+                </button>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="button"
+                  id="add-build"
+                >
+                  Add Build
+                </button>
+              </div>
+            )}
+          </>
         )}
       </section>
       {showForm && (
@@ -186,7 +250,14 @@ const Builds = () => {
             style={{
               backgroundImage: `url(${currentBuild?.images[modalIndex]})`,
             }}
-          ></div>
+          >
+            <button id="left" onClick={decreaseIndex}>
+              ←
+            </button>
+            <button id="right" onClick={increaseIndex}>
+              →
+            </button>
+          </div>
         </div>
       )}
       {loading ? (
@@ -245,7 +316,10 @@ const Builds = () => {
                       {...sortableKeyboardCoordinates}
                     >
                       {currentBuild.images.map((image, index) => (
-                        <div key={image} onClick={() => setModalIndex(index)}>
+                        <div
+                          key={image + index}
+                          onClick={() => setModalIndex(index)}
+                        >
                           <SortableItem
                             image={image}
                             index={index}
@@ -259,7 +333,10 @@ const Builds = () => {
               ) : (
                 <ul className="gallery">
                   {currentBuild.images.map((image, index) => (
-                    <li key={image}>
+                    <li
+                      key={image + index}
+                      onClick={() => setModalIndex(index)}
+                    >
                       <ImageCard image={image} />
                     </li>
                   ))}
@@ -269,16 +346,39 @@ const Builds = () => {
           ) : (
             <>
               {builds.length ? (
-                <ul id="card-container">
-                  {builds.map((build) => (
-                    <BuildCard
-                      build={build}
-                      key={build._id}
-                      updateHandler={updateHandler}
-                      deleteBuildHandler={deleteBuildHandler}
-                    />
-                  ))}
-                </ul>
+                <>
+                  {orderBuilds ? (
+                    // sortable build cards
+                    <ul className="card-container">
+                      <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleBuildDragEnd}
+                      >
+                        <SortableContext
+                          items={builds.map((build) => build._id!)}
+                          strategy={rectSortingStrategy}
+                          {...sortableKeyboardCoordinates}
+                        >
+                          {builds.map((build) => (
+                            <SortableBuildCard build={build} key={build._id} />
+                          ))}
+                        </SortableContext>
+                      </DndContext>
+                    </ul>
+                  ) : (
+                    <ul className="card-container">
+                      {builds.map((build) => (
+                        <BuildCard
+                          build={build}
+                          key={build._id}
+                          updateHandler={updateHandler}
+                          deleteBuildHandler={deleteBuildHandler}
+                        />
+                      ))}
+                    </ul>
+                  )}
+                </>
               ) : (
                 <p className="no-data">No builds yet</p>
               )}
