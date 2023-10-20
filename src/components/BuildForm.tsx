@@ -62,6 +62,7 @@ const BuildForm = ({
         }
       }
     }
+    console.log(namesOfFiles);
     for await (const entry of directoryHandle.values()) {
       if (entry.kind === "file") {
         const fileHandle = await entry.getFile();
@@ -99,25 +100,33 @@ const BuildForm = ({
 
     const sortImagesByOrder = (images: string[], namesOfFiles: string[]) => {
       const sortedFiles = namesOfFiles.sort((a, b) => {
-        // Extract the numeric prefix from both filenames
-        const numA = parseInt(a.split("_")[0]);
-        const numB = parseInt(b.split("_")[0]);
+        const regex = /copy/i;
+        const copyInA = regex.test(a);
+        const copyInB = regex.test(b);
 
-        // Check if both filenames have numeric prefixes
-        if (!isNaN(numA) && !isNaN(numB)) {
-          // Compare the numeric prefixes
-          return numA - numB;
+        if (copyInA && !copyInB) {
+          return -1;
+        } else if (!copyInA && copyInB) {
+          return 1;
         } else {
-          // If either filename is non-numeric, place it at the end
-          if (isNaN(numA)) {
-            return -1;
-          } else if (isNaN(numB)) {
-            return 1;
+          const numA = parseInt(a.split(".")[0]);
+          const numB = parseInt(b.split(".")[0]);
+
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return numA - numB;
           } else {
-            return 0;
+            if (isNaN(numA)) {
+              return 1;
+            } else if (isNaN(numB)) {
+              return -1;
+            } else {
+              return 0;
+            }
           }
         }
       });
+
+      console.log(sortedFiles);
 
       const orderedImages: string[] = [];
       for (const file of sortedFiles) {
