@@ -304,7 +304,7 @@ const Builds = () => {
                 </>
               </div>
               {edit ? (
-                <div className="gallery">
+                <ul className="gallery">
                   <DndContext
                     sensors={sensors}
                     collisionDetection={closestCenter}
@@ -329,16 +329,16 @@ const Builds = () => {
                       ))}
                     </SortableContext>
                   </DndContext>
-                </div>
+                </ul>
               ) : (
                 <ul className="gallery">
                   {currentBuild.images.map((image, index) => (
-                    <li
+                    <div
                       key={image + index}
                       onClick={() => setModalIndex(index)}
                     >
                       <ImageCard image={image} />
-                    </li>
+                    </div>
                   ))}
                 </ul>
               )}

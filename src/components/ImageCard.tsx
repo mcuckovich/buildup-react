@@ -13,10 +13,10 @@ const ImageCard = ({ image, index, deleteImage }: Props) => {
   };
 
   return (
-    <div className="ImageCard" style={{ backgroundImage: `url(${image})` }}>
+    <li className="ImageCard" style={{ backgroundImage: `url(${image})` }}>
       {index !== undefined && <p>{index + 1}</p>}
       {index !== undefined && <button onClick={deleteImageHandler}>X</button>}
-    </div>
+    </li>
   );
 };
 

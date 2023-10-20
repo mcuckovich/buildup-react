@@ -90,10 +90,15 @@
 }
 
 .Builds .gallery {
-  padding: 10px 0 10px 10px;
+  padding: 0 0 10px 10px;
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+}
+
+.Builds .gallery > div {
+  width: calc(50% - 10px);
+  margin: 10px 10px 0 0;
 }
 
 .Builds #image-modal {
@@ -134,8 +139,20 @@
   left: calc(50% + 5px);
 }
 
+@media only screen and (min-width: 480px) {
+  .Builds .gallery > div {
+    width: calc(25% - 10px);
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .Builds #image-modal-content {
     width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .Builds .gallery > div {
+    width: calc(16.666% - 10px);
   }
 }

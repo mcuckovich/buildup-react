@@ -1,5 +1,5 @@
 .BuildCard {
-  width: calc(50vw - 15px);
+  width: calc(50% - 10px);
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
