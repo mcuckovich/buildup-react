@@ -41,7 +41,7 @@ const RequestRow = ({
             disabled={part.quantity === 0}
             onClick={() => setShowInfo((prev) => !prev)}
           >
-            Information
+            Info
           </button>
           <a
             className="button"

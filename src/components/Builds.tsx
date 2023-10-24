@@ -228,7 +228,7 @@ const Builds = () => {
                   className="button"
                   id="add-build"
                 >
-                  Add Build
+                  Add
                 </button>
               </div>
             )}

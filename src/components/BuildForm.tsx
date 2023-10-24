@@ -62,7 +62,6 @@ const BuildForm = ({
         }
       }
     }
-    console.log(namesOfFiles);
     for await (const entry of directoryHandle.values()) {
       if (entry.kind === "file") {
         const fileHandle = await entry.getFile();

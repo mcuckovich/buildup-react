@@ -90,7 +90,7 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
                 id="view"
                 className="button"
               >
-                View Build
+                View
               </Link>
             </div>
           </div>
