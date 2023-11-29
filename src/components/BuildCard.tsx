@@ -21,11 +21,19 @@ interface Props {
 const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
   const [title, setTitle] = useState<string>(build.title || "");
   const [kitColor, setKitColor] = useState<string>(build.kitColor || "");
+  const [defaultBuild, setDefaultBuild] = useState<boolean>(
+    build.default || false
+  );
   const [editBuild, setEditBuild] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    updateHandler(build._id!, { title, kitColor, images: build.images });
+    updateHandler(build._id!, {
+      title,
+      kitColor,
+      images: build.images,
+      default: defaultBuild,
+    });
     setEditBuild(false);
   };
 
@@ -64,6 +72,16 @@ const BuildCard = ({ build, updateHandler, deleteBuildHandler }: Props) => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div id="default-container">
+              <label htmlFor="default">Default Build?</label>
+              <input
+                type="checkbox"
+                name="default"
+                id="default"
+                checked={defaultBuild}
+                onChange={(e) => setDefaultBuild(e.target.checked)}
+              />
             </div>
             <div className="build-card-button-container">
               <button id="save-build">Save</button>

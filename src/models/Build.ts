@@ -3,4 +3,5 @@ export default interface Build {
   title: string;
   kitColor: string;
   images: string[];
+  default: boolean;
 }

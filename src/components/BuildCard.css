@@ -57,6 +57,15 @@
   margin-top: 5px;
 }
 
+.BuildCard #default-container {
+  margin-top: 5px;
+}
+
+.BuildCard #default-container input {
+  width: initial;
+  margin-left: 5px;
+}
+
 .BuildCard form input,
 .BuildCard form select {
   width: 100%;

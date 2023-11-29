@@ -29,6 +29,7 @@ const BuildForm = ({
   const [title, setTitle] = useState("");
   const [kitColor, setKitColor] = useState("");
   const [directoryName, setDirectoryName] = useState("");
+  const [defaultBuild, setDefaultBuild] = useState(false);
   const [directory, setDirectory] = useState<any>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -125,8 +126,6 @@ const BuildForm = ({
         }
       });
 
-      console.log(sortedFiles);
-
       const orderedImages: string[] = [];
       for (const file of sortedFiles) {
         const index = images.findIndex((image) =>
@@ -147,9 +146,15 @@ const BuildForm = ({
         title: currentBuild.title,
         kitColor: currentBuild.kitColor,
         images: sortedImages,
+        default: currentBuild.default,
       });
     } else {
-      await addBuildHandler({ title, kitColor, images: sortedImages });
+      await addBuildHandler({
+        title,
+        kitColor,
+        images: sortedImages,
+        default: defaultBuild,
+      });
     }
   };
 
@@ -185,10 +190,12 @@ const BuildForm = ({
         title: currentBuild?.title!,
         kitColor: currentBuild?.kitColor!,
         images: [url],
+        default: currentBuild?.default!,
       });
       setTitle("");
       setKitColor("");
       setSelectedFile(null);
+      setDefaultBuild(false);
       setLoading(false);
     }
   };
@@ -245,6 +252,16 @@ const BuildForm = ({
                 </option>
               ))}
             </select>
+            <div>
+              <label htmlFor="default">Default Build?</label>
+              <input
+                type="checkbox"
+                name="default"
+                id="default"
+                checked={defaultBuild}
+                onChange={(e) => setDefaultBuild(e.target.checked)}
+              />
+            </div>
             <button onClick={handleDirectoryPicker} type="button">
               Pic Folder
             </button>
